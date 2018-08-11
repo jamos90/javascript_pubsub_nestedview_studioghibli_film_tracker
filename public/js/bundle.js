@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const Ghibli = __webpack_require__(/*! ./models/ghibli */ \"./src/models/ghibli.js\");\nconst GhibliListView = __webpack_require__(/*! ./views/ghibli_list_view.js */ \"./src/views/ghibli_list_view.js\");\nconst SelectView = __webpack_require__(!(function webpackMissingModule() { var e = new Error(\"Cannot find module './vies/select_view.js'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));\n\n\ndocument.addEventListener('DOMContentLoaded', () => {\n\n\n  const ghibli = new Ghibli;\n  ghibli.getData();\n  ghibli.bindEvents();\n});\n\n\n//# sourceURL=webpack:///./src/app.js?");
+eval("const Ghibli = __webpack_require__(/*! ./models/ghibli */ \"./src/models/ghibli.js\");\nconst GhibliListView = __webpack_require__(/*! ./views/ghibli_list_view.js */ \"./src/views/ghibli_list_view.js\");\nconst SelectView = __webpack_require__(!(function webpackMissingModule() { var e = new Error(\"Cannot find module './vies/select_view.js'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));\n\n\ndocument.addEventListener('DOMContentLoaded', () => {\n\n  const container = document.querySelector('#film-list')\n  const ghibli_list_view = new GhibliListView(container);\n  ghibli_list_view.bindEvents();\n\n  const ghibli = new Ghibli;\n  ghibli.getData();\n  ghibli.bindEvents();\n});\n\n\n//# sourceURL=webpack:///./src/app.js?");
 
 /***/ }),
 
@@ -104,7 +104,7 @@ eval("const Ghibli = __webpack_require__(/*! ./models/ghibli */ \"./src/models/g
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\n\n//# sourceURL=webpack:///./src/models/ghibli.js?");
+eval("throw new Error(\"Module parse failed: Unexpected token (19:17)\\nYou may need an appropriate loader to handle this file type.\\n|   this.films = filmData.map((film) => {\\n|     return {\\n>       id: film.id;\\n|       title: film.name;\\n|       description: film.description;\");\n\n//# sourceURL=webpack:///./src/models/ghibli.js?");
 
 /***/ }),
 
