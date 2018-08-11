@@ -91,9 +91,31 @@
   !*** ./src/app.js ***!
   \********************/
 /*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const Ghibli = __webpack_require__(/*! ./models/ghibli */ \"./src/models/ghibli.js\");\nconst GhibliListView = __webpack_require__(/*! ./views/ghibli_list_view.js */ \"./src/views/ghibli_list_view.js\");\nconst SelectView = __webpack_require__(!(function webpackMissingModule() { var e = new Error(\"Cannot find module './vies/select_view.js'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));\n\n\ndocument.addEventListener('DOMContentLoaded', () => {\n\n\n  const ghibli = new Ghibli;\n  ghibli.getData();\n  ghibli.bindEvents();\n});\n\n\n//# sourceURL=webpack:///./src/app.js?");
+
+/***/ }),
+
+/***/ "./src/models/ghibli.js":
+/*!******************************!*\
+  !*** ./src/models/ghibli.js ***!
+  \******************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\n\n//# sourceURL=webpack:///./src/app.js?");
+eval("\n\n//# sourceURL=webpack:///./src/models/ghibli.js?");
+
+/***/ }),
+
+/***/ "./src/views/ghibli_list_view.js":
+/*!***************************************!*\
+  !*** ./src/views/ghibli_list_view.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("\n\n//# sourceURL=webpack:///./src/views/ghibli_list_view.js?");
 
 /***/ })
 
