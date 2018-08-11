@@ -9,6 +9,7 @@ const GhibliListView = function (container) {
 GhibliListView.prototype.bindEvents = function () {
   PubSub.subscribe('Ghibli:film-data-ready', (evt) =>{
     const filmsData = evt.detail;
+    console.log('list view', filmsData);
     this.render(filmsData);
   });
 };
