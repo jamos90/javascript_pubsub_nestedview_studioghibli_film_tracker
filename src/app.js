@@ -1,6 +1,6 @@
 const Ghibli = require('./models/ghibli');
 const GhibliListView = require('./views/ghibli_list_view.js');
-// const SelectView = require('./vies/select_view.js');
+const SelectView = require('./views/select_view.js');
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,9 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const ghibliListView = new GhibliListView(container);
   ghibliListView.bindEvents();
 
+  const selector = document.querySelector('#film-selector');
+  const selectView = new SelectView(selector);
+  selectView.bindEvents();
+
   const ghibli = new Ghibli();
   ghibli.getDataFilm();
-  // ghibli.bindEvents();
+  ghibli.bindEvents();
 
 
 });

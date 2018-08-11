@@ -8,6 +8,7 @@ const Ghibli = function () {
 };
 
 
+
 Ghibli.prototype.getDataFilm = function () {
   const requestHelperFilms = new RequestHelper('https://ghibliapi.herokuapp.com/films');
   const requestHelperPeople = new RequestHelper('https://ghibliapi.herokuapp.com/people/');
@@ -31,6 +32,15 @@ Ghibli.prototype.getDataFilm = function () {
     });
  }
 
+ Ghibli.prototype.bindEvents = function(){
+   PubSub.subscribe('SelectView:select-film-ready', (evt) =>{
+     const selectedIndex = evt.detail;
+     const selectedFilm = this.films[selectedIndex];
+     PubSub.publish('Ghibli:slected-film-sent-to-view', selectedFilm);
+   });
+
+ }
+
 Ghibli.prototype.formatFilmData = function (filmData) {
   this.films = filmData.map((film) => {
     return {
@@ -38,32 +48,24 @@ Ghibli.prototype.formatFilmData = function (filmData) {
       title: film.title,
       description: film.description,
       rtScore: film.rt_score,
-      characters: film.people
+      characters: this.people
     }
   });
   // console.log(this.films);
 };
 
-// Ghibli.prototype.getCharacters = function (filmData) {
-//   const listOfCharacters = []
-//   const filmsCharacters = filmData.people.forEach((character) =>{
-//      listOfCharacters.push(character);
-//   });
-//   return listOfCharacters;
-//
-// };
-
-// Ghibli.prototype.peopleDetailFromFilm = function (filmdata) {
-//   const peopleFromFilm = filmData.people.forEach((person) =>{
-//      const character = new RequestHelper(person);
-//      character.get((data) =>{
-//        return character;
-//        console.log(character);
-//      })
-//
-//   });
-//
-// };
+Ghibli.prototype.filmCharacterInformation = function (filmData) {
+  const film = filmData.forEach((film) => {
+   const filmCharacters = film.people.forEach((character) => {
+    const characterRequest = new RequestHelper(filmCharacters);
+      characterRequest.get()
+      .then((data) => {
+       this.people = data;
+     });
+     console.log(this.people);
+    });
+  });
+};
 
 
 Ghibli.prototype.formatPeopleData = function (peopleData) {
@@ -71,32 +73,22 @@ Ghibli.prototype.formatPeopleData = function (peopleData) {
     return {
       id: person.id,
       name: person.name,
-      films: person.films,
-    }
-  });
+      films: person.films
+      }
+    });
   console.log('people', this.people);
 };
 
+Ghibli.prototype.getFilmForCharacter = function (peopleData) {
+  peopleData.films.forEach((film) => {
+    const charactersFilm = new RequestHelper(peopleData.films)
+    charactersFilm.get()
+    .then(data);
+    return data;
+  });
+  return charactersFilm;
+};
 
-// Ghibli.prototype.getCharacters = function (filmData) {
-//   const listOfCharacters = []
-//   const filmsCharacters = filmData.people.forEach((character) =>{
-//      listOfCharacters.push(character);
-//   });
-//   return listOfCharacters;
-//
-// };
 
-// Ghibli.prototype.peopleDetailFromFilm = function (filmdata) {
-//   const peopleFromFilm = filmData.people.forEach((person) =>{
-//      const character = new RequestHelper(person);
-//      character.get((data) =>{
-//        return character;
-//        console.log(character);
-//      })
-//
-//   });
-//
-// };
 
 module.exports = Ghibli;

@@ -12,6 +12,10 @@ GhibliListView.prototype.bindEvents = function () {
     console.log('list view', filmsData);
     this.render(filmsData);
   });
+  PubSub.subscribe('Ghibli:slected-film-sent-to-view', (evt)=>{
+    const selectedFilm = evt.detail;
+    this.render(selectedFilm);
+  });
 };
 
 GhibliListView.prototype.render = function (filmData) {
