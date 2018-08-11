@@ -14,8 +14,15 @@ GhibliListView.prototype.bindEvents = function () {
   });
   PubSub.subscribe('Ghibli:slected-film-sent-to-view', (evt)=>{
     const selectedFilm = evt.detail;
-    this.render(selectedFilm);
+    this.renderFilm(selectedFilm);
   });
+};
+
+GhibliView.prototype.renderFilm = function (selectedFilm) {
+  this.innerHTML = '';
+  selectedFilm = new GhibliView(this.container, selectedFilm);
+  selectedFilm.render();
+
 };
 
 GhibliListView.prototype.render = function (filmData) {
