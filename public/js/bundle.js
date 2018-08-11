@@ -148,7 +148,7 @@ eval("const GhibliView = __webpack_require__(/*! ./ghibli_view.js */ \"./src/vie
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\n\nconst GhibliView = function (container, film) {\n  this.film = film;\n  this.container = container;\n}\n\n\n//# sourceURL=webpack:///./src/views/ghibli_view.js?");
+eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\nconst GhibliListView = __webpack_require__(/*! ./ghibli_list_view.js */ \"./src/views/ghibli_list_view.js\");\n\n\nconst GhibliView = function (container, film) {\n  this.film = film;\n  this.container = container;\n}\n\nGhibliView.prototype.render = function () {\n  const filmContainer = document.createElement('div');\n  this.container.appendChild(filmContainer);\n\n  const title = this.createFilmHeader();\n  filmContainer.appendChild(title);\n\n};\n\nGhibliView.prototype.createFilmHeader = function () {\n  const filmHeader = document.createElement('h1');\n  filmHeader.textContent = this.film.title;\n  return filmHeader\n};\n\nmodule.exports = GhibliView;\n\n\n//# sourceURL=webpack:///./src/views/ghibli_view.js?");
 
 /***/ })
 
