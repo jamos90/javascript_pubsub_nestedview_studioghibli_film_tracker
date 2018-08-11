@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const Ghibli = __webpack_require__(/*! ./models/ghibli */ \"./src/models/ghibli.js\");\n\n// const GhibliListView = require('./views/ghibli_list_view.js');\n// const SelectView = require('./vies/select_view.js');\n\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('js.loaded');\n\n  // const container = document.querySelector('#film-list')\n  // const ghibli_list_view = new GhibliListView(container);\n  // ghibli_list_view.bindEvents();\n\n  const ghibli = new Ghibli();\n  ghibli.getData();\n  // ghibli.bindEvents();\n\n\n});\n\n\n//# sourceURL=webpack:///./src/app.js?");
+eval("const Ghibli = __webpack_require__(/*! ./models/ghibli */ \"./src/models/ghibli.js\");\nconst GhibliListView = __webpack_require__(/*! ./views/ghibli_list_view.js */ \"./src/views/ghibli_list_view.js\");\n// const SelectView = require('./vies/select_view.js');\n\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('js.loaded');\n\n  const container = document.querySelector('#film-list')\n  const ghibliListView = new GhibliListView(container);\n  ghibliListView.bindEvents();\n\n  const ghibli = new Ghibli();\n  ghibli.getData();\n  // ghibli.bindEvents();\n\n\n});\n\n\n//# sourceURL=webpack:///./src/app.js?");
 
 /***/ }),
 
@@ -127,6 +127,28 @@ eval("const RequestHelper = function (url) {\n  this.url = url\n}\n// Get reques
 /***/ (function(module, exports, __webpack_require__) {
 
 eval("const RequestHelper = __webpack_require__(/*! ../helpers/request_helper.js */ \"./src/helpers/request_helper.js\");\nconst PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\n\nconst Ghibli = function () {\n  this.films = null;\n};\n\n\nGhibli.prototype.getData = function () {\n  const requestHelper = new RequestHelper('https://ghibliapi.herokuapp.com/films');\n    requestHelper.get((data) => {\n\n     this.formatFilmData(data);\n     PubSub.publish('Ghibli:film-data-ready', this.films);\n     console.log(this.films);\n\n    });\n  };\n\nGhibli.prototype.formatFilmData = function (filmData) {\n  this.films = filmData.map((film) => {\n    return {\n      id: film.id,\n      title: film.title,\n      description: film.description,\n      rtScore: film.rt_score\n    }\n  });\n  console.log(this.films);\n};\n\nmodule.exports = Ghibli;\n\n\n//# sourceURL=webpack:///./src/models/ghibli.js?");
+
+/***/ }),
+
+/***/ "./src/views/ghibli_list_view.js":
+/*!***************************************!*\
+  !*** ./src/views/ghibli_list_view.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const GhibliView = __webpack_require__(/*! ./ghibli_view.js */ \"./src/views/ghibli_view.js\");\nconst PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\n\nconst GhibliListView = function (container) {\n  this.container = container;\n};\n\nGhibliListView.prototype.bindEvents = function () {\n  PubSub.subscribe('Ghibli:film-data-ready', (evt) =>{\n    const filmsData = evt.detail;\n    this.render(filmsData);\n  });\n};\n\nGhibliListView.prototype.render = function (filmData) {\n  this.innerHTML = '';\n  filmData.forEach((film) =>{\n    const filmView = new GhibliView(this.container, film);\n    filmView.render();\n  });\n};\n\n\nmodule.exports = GhibliListView;\n\n\n//# sourceURL=webpack:///./src/views/ghibli_list_view.js?");
+
+/***/ }),
+
+/***/ "./src/views/ghibli_view.js":
+/*!**********************************!*\
+  !*** ./src/views/ghibli_view.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\n\nconst GhibliView = function (container, film) {\n  this.film = film;\n  this.container = container;\n}\n\n\n//# sourceURL=webpack:///./src/views/ghibli_view.js?");
 
 /***/ })
 
