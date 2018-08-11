@@ -18,11 +18,10 @@ GhibliListView.prototype.bindEvents = function () {
   });
 };
 
-GhibliView.prototype.renderFilm = function (selectedFilm) {
+GhibliListView.prototype.renderFilm = function (selectedFilm) {
   this.innerHTML = '';
   selectedFilm = new GhibliView(this.container, selectedFilm);
   selectedFilm.render();
-
 };
 
 GhibliListView.prototype.render = function (filmData) {
