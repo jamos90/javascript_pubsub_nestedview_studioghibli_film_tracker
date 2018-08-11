@@ -93,7 +93,29 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const Ghibli = __webpack_require__(/*! ./models/ghibli */ \"./src/models/ghibli.js\");\nconst GhibliListView = __webpack_require__(/*! ./views/ghibli_list_view.js */ \"./src/views/ghibli_list_view.js\");\nconst SelectView = __webpack_require__(!(function webpackMissingModule() { var e = new Error(\"Cannot find module './vies/select_view.js'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));\n\n\ndocument.addEventListener('DOMContentLoaded', () => {\n\n  const container = document.querySelector('#film-list')\n  const ghibli_list_view = new GhibliListView(container);\n  ghibli_list_view.bindEvents();\n\n  const ghibli = new Ghibli;\n  ghibli.getData();\n  ghibli.bindEvents();\n});\n\n\n//# sourceURL=webpack:///./src/app.js?");
+eval("const Ghibli = __webpack_require__(/*! ./models/ghibli */ \"./src/models/ghibli.js\");\n\n// const GhibliListView = require('./views/ghibli_list_view.js');\n// const SelectView = require('./vies/select_view.js');\n\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('js.loaded');\n\n  // const container = document.querySelector('#film-list')\n  // const ghibli_list_view = new GhibliListView(container);\n  // ghibli_list_view.bindEvents();\n\n  const ghibli = new Ghibli();\n  ghibli.getData();\n  // ghibli.bindEvents();\n\n\n});\n\n\n//# sourceURL=webpack:///./src/app.js?");
+
+/***/ }),
+
+/***/ "./src/helpers/pub_sub.js":
+/*!********************************!*\
+  !*** ./src/helpers/pub_sub.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("const PubSub = {\n  publish: function (channel, payload) {\n    const event = new CustomEvent(channel, {\n      detail: payload\n    });\n    document.dispatchEvent(event);\n  },\n  subscribe: function (channel, callback) {\n    document.addEventListener(channel, callback);\n  }\n};\n\nmodule.exports = PubSub;\n\n\n//# sourceURL=webpack:///./src/helpers/pub_sub.js?");
+
+/***/ }),
+
+/***/ "./src/helpers/request_helper.js":
+/*!***************************************!*\
+  !*** ./src/helpers/request_helper.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("const RequestHelper = function (url) {\n  this.url = url\n}\n// Get request using Promises:\nRequestHelper.prototype.get = function (onComplete) {\n  const xhr = new XMLHttpRequest();\n  xhr.open('GET', this.url);\n  xhr.setRequestHeader('Accept', 'application/json');\n  xhr.addEventListener('load', function() {\n    if(this.status !== 200){\n      return;\n    }\n    const data = JSON.parse(this.responseText);\n    onComplete(data);\n  });\n  xhr.send();\n};\n\nmodule.exports = RequestHelper;\n\n//Get request using Feth:\n// RequestHelper.prototype.get = function (onComplete) {\n//   return fech(this.url)\n//   .then(response => response.json);\n// }\n\n\nmodule.exports = RequestHelper;\n\n\n//# sourceURL=webpack:///./src/helpers/request_helper.js?");
 
 /***/ }),
 
@@ -102,20 +124,9 @@ eval("const Ghibli = __webpack_require__(/*! ./models/ghibli */ \"./src/models/g
   !*** ./src/models/ghibli.js ***!
   \******************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-eval("throw new Error(\"Module parse failed: Unexpected token (19:17)\\nYou may need an appropriate loader to handle this file type.\\n|   this.films = filmData.map((film) => {\\n|     return {\\n>       id: film.id;\\n|       title: film.name;\\n|       description: film.description;\");\n\n//# sourceURL=webpack:///./src/models/ghibli.js?");
-
-/***/ }),
-
-/***/ "./src/views/ghibli_list_view.js":
-/*!***************************************!*\
-  !*** ./src/views/ghibli_list_view.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("\n\n//# sourceURL=webpack:///./src/views/ghibli_list_view.js?");
+eval("const RequestHelper = __webpack_require__(/*! ../helpers/request_helper.js */ \"./src/helpers/request_helper.js\");\nconst PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\n\nconst Ghibli = function () {\n  this.films = null;\n};\n\n\nGhibli.prototype.getData = function () {\n  const requestHelper = new RequestHelper('https://ghibliapi.herokuapp.com/films');\n  requestHelper.get((data) => {\n\n     this.formatFilmData(data);\n     PubSub.publish('Ghibli:film-data-ready', this.films);\n  });\n\n};\n\nGhibli.prototype.formatFilmData = function (filmData) {\n  this.films = filmData.map((film) => {\n    return {\n      id: film.id,\n      title: film.title,\n      description: film.description,\n      rtScore: film.rt_score\n    }\n  });\n  console.log(this.films);\n\n};\n\nmodule.exports = Ghibli;\n\n\n//# sourceURL=webpack:///./src/models/ghibli.js?");
 
 /***/ })
 
