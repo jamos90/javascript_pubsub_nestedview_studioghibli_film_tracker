@@ -9,13 +9,14 @@ const Ghibli = function () {
 
 Ghibli.prototype.getData = function () {
   const requestHelper = new RequestHelper('https://ghibliapi.herokuapp.com/films');
-  requestHelper.get((data) => {
+    requestHelper.get((data) => {
 
      this.formatFilmData(data);
      PubSub.publish('Ghibli:film-data-ready', this.films);
-  });
+     console.log(this.films);
 
-};
+    });
+  };
 
 Ghibli.prototype.formatFilmData = function (filmData) {
   this.films = filmData.map((film) => {
@@ -27,7 +28,6 @@ Ghibli.prototype.formatFilmData = function (filmData) {
     }
   });
   console.log(this.films);
-
 };
 
 module.exports = Ghibli;
