@@ -7,11 +7,11 @@ const GhibliListView = function (container) {
 };
 
 GhibliListView.prototype.bindEvents = function () {
-  PubSub.subscribe('Ghibli:film-data-ready', (evt) =>{
-    const filmsData = evt.detail;
-    console.log('list view', filmsData);
-    this.render(filmsData);
-  });
+  // PubSub.subscribe('Ghibli:film-data-ready', (evt) =>{
+  //   const filmsData = evt.detail;
+  //   console.log('list view', filmsData);
+  //   this.render(filmsData);
+  // });
   PubSub.subscribe('Ghibli:slected-film-sent-to-view', (evt)=>{
     const selectedFilm = evt.detail;
     this.renderFilm(selectedFilm);
