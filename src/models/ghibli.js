@@ -96,19 +96,19 @@ Ghibli.prototype.getFilmsFromPeople = function(peopleData){
       newFilm.get()
       .then((data) => {
         const filmData = data;
-        this.formatPeopleFilmData(filmData);
+        PubSub.publish('Ghibli:characters-film-info');
       });
   });
 };
 
-Ghibli.prototype.formatPeopleFilmData = function (data) {
-    return Object.defineProperty(this.people, 'film', {
-      value: data,
-      writable: true,
-      configurable: true
-    });
-    console.log('object added?',this.people);
-};
+// Ghibli.prototype.formatPeopleFilmData = function (data) {
+//     return Object.defineProperty(this.people, 'film', {
+//       value: data,
+//       writable: true,
+//       configurable: true
+//     });
+//     console.log('object added?',this.people);
+// };
 
 
 

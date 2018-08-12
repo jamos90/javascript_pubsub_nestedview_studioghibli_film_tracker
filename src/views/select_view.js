@@ -1,9 +1,10 @@
 const PubSub = require('../helpers/pub_sub.js');
 
 
-const SelectView = function(container, select) {
+const SelectView = function(container, select, selector) {
   this.container = container;
   this.secondSelect = select;
+  this.thirdSelect = selector;
   this.films = null;
 }
 
@@ -12,6 +13,11 @@ SelectView.prototype.bindEvents = function (){
     const allFilms = evt.detail;
     this.populateDropDown(allFilms);
     this.populateDirectorDropDown(allFilms);
+  });
+
+  PubSub.subscribe('Ghibli:people-data-ready', (evt) =>{
+    const allCharacters = evt.detail;
+    this.populateCharacterDropDown(allCharacters);
   });
 
   this.container.addEventListener('change', (evt) =>{
@@ -40,6 +46,14 @@ SelectView.prototype.bindEvents = function (){
      const listOption = document.createElement('option');
      listOption.textContent = film.director;
      this.secondSelect.appendChild(listOption);
+    });
+  };
+
+  SelectView.prototype.populateCharacterDropDown = function (characterData) {
+    const characters = characterData.forEach((character) => {
+      const listOption = document.createElement('option');
+      listOption.textContent = character.name;
+      this.thirdSelect.appendChild(listOption);
     });
   };
 
