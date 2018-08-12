@@ -21,11 +21,21 @@ GhibliView.prototype.render = function () {
 
 };
 
+
 GhibliView.prototype.createFilmHeader = function () {
   const filmHeader = document.createElement('h1');
   filmHeader.textContent = this.film.title;
   return filmHeader
 };
+
+
+// GhibliView.prototype.createFilmHeaders = function () {
+//   this.films.forEach((film) => {
+//   const filmHeader = document.createElement('h1');
+//   filmHeader.textContent = film.title;
+//   return filmHeader
+//   });
+// };
 
 GhibliView.prototype.createList = function () {
   const filmInfoList = document.createElement('ul');

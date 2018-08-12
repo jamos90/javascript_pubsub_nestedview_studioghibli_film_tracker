@@ -47,7 +47,7 @@ Ghibli.prototype.getDataFilm = function () {
        console.log(director);
        const  filteredFilms = this.filterByDirector(director);
        console.log('filteredFilms', filteredFilms);
-       PubSub.publish('Ghibli:filtered-list-ready', filteredFilms);
+       PubSub.publish('Ghibli:director-filtered-list-ready', filteredFilms);
       });
 
    });

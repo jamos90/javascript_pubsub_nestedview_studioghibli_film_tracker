@@ -1,4 +1,5 @@
 const GhibliView = require('./ghibli_view.js');
+const GhibliViewMultiple = require('./ghibli_view_multiple.js');
 const PubSub = require('../helpers/pub_sub.js');
 
 
@@ -16,15 +17,21 @@ GhibliListView.prototype.bindEvents = function () {
     console.log('list view', filmsData);
     this.render(filmsData);
   });
-  PubSub.subscribe('Ghibli:filtered-list-ready', (evt) =>{
+  PubSub.subscribe('Ghibli:director-filtered-list-ready', (evt) =>{
     const directorData = evt.detail;
     console.log('correct director data passed',directorData);
-    this.renderFilm(directorData);
+    this.renderDirectorsFilms(directorData);
   });
 };
 
+GhibliListView.prototype.renderDirectorsFilms = function (selectedData) {
+  this.container.innerHTML = "";
+   const selectedFilms = new GhibliViewMultiple(this.container, selectedData);
+  selectedFilms.render();
+};
+
 GhibliListView.prototype.renderFilm = function (selectedData) {
-  this.container.innerHTML = " ";
+  this.container.innerHTML = "";
   selectedFilm = new GhibliView(this.container, selectedData);
   selectedFilm.render();
 };
