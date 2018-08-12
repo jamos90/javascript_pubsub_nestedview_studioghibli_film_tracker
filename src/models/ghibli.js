@@ -5,6 +5,7 @@ const PubSub = require('../helpers/pub_sub.js');
 const Ghibli = function () {
   this.films = null;
   this.people = null;
+  this.charactersFilms = {};
 };
 
 
@@ -17,6 +18,7 @@ Ghibli.prototype.getDataFilm = function () {
     .then((data) => {
       // console.log('all data:', data);
      this.formatFilmData(data);
+     console.log('film data', data);
      PubSub.publish('Ghibli:film-data-ready', this.films);
      // console.log(this.films);
     })
@@ -27,8 +29,8 @@ Ghibli.prototype.getDataFilm = function () {
     requestHelperPeople.get()
     .then((data) => {
       // console.log('all data people', data);
-      this.getFilmsFromPeople(data);
       this.formatPeopleData(data);
+      this.getFilmsFromPeople(data);
       PubSub.publish('Ghibli:people-data-ready', this.people);
       console.log('people data', this.people);
     });
@@ -63,23 +65,33 @@ Ghibli.prototype.formatPeopleData = function (peopleData) {
       id: person.id,
       name: person.name,
       gender: person.gender,
-      film: person.films
+
       }
     });
   };
 
-    Ghibli.prototype.getFilmsFromPeople = function(peopleData){
-      const filmList = peopleData.forEach((person) => {
-        const charactersFilms = person.films
-        const filmToRequest = charactersFilms[0];
-        const newFilm = new RequestHelper(filmToRequest);
-        newFilm.get()
-        .then((data) => {
-          const filmOfCharacter = data;
-          person.films = data
-          console.log(`person films`,person.films);
-        });
+Ghibli.prototype.getFilmsFromPeople = function(peopleData){
+  const filmList = peopleData.forEach((person) => {
+    const charactersFilms = person.films
+    const filmToRequest = charactersFilms[0];
+    const newFilm = new RequestHelper(filmToRequest);
+      newFilm.get()
+      .then((data) => {
+        const filmData = data;
+        formatPeopleFilmData(data);
       });
-    };
+  });
+};
+
+Ghibli.prototype.formatPeopleFilmData = function (data) {
+    Object.defineProperty(this.people, 'film', {
+      value: data,
+      writable: true
+    });
+    console.log(this.charactersFilms);
+};
+
+
+
 
 module.exports = Ghibli;
