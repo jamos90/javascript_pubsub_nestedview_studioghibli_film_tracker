@@ -41,14 +41,16 @@ Ghibli.prototype.getDataFilm = function () {
      const selectedIndex = evt.detail;
      const selectedFilm = this.films[selectedIndex];
      PubSub.publish('Ghibli:slected-film-sent-to-view', selectedFilm);
-     PubSub.subscribe('SelectView:select-films-by-director', (evt) =>{
+
+     PubSub.subscribe('SelectView:selected-director-ready', (evt) =>{
        const director = evt.detail;
-       const  filtredFilms = this.filterByDirector(director);
-       PubSub.publish('Ghibli:filtered-list-ready');
+       console.log(director);
+       const  filteredFilms = this.filterByDirector(director);
+       console.log('filteredFilms', filteredFilms);
+       PubSub.publish('Ghibli:filtered-list-ready', filteredFilms);
       });
 
    });
-
  }
 
 Ghibli.prototype.formatFilmData = function (filmData) {
@@ -62,12 +64,17 @@ Ghibli.prototype.formatFilmData = function (filmData) {
 
     }
   });
-  // console.log(this.films);
 };
 
 Ghibli.prototype.filterByDirector = function (director){
-  return this.films.filter(film => film.director === director)
+  return this.films.filter(film => film.director === director);
 }
+
+// Ghibli.prototype.getDirectorNames = function (films) {
+//   return films
+//     .map(film => film.director)
+//     .filter((director, index, directors) => regions.indexOf(region) === index);
+// };
 
 Ghibli.prototype.formatPeopleData = function (peopleData) {
   this.people = peopleData.map((person) => {

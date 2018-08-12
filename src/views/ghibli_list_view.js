@@ -16,16 +16,21 @@ GhibliListView.prototype.bindEvents = function () {
     console.log('list view', filmsData);
     this.render(filmsData);
   });
+  PubSub.subscribe('Ghibli:filtered-list-ready', (evt) =>{
+    const directorData = evt.detail;
+    console.log('correct director data passed',directorData);
+    this.renderFilm(directorData);
+  });
 };
 
-GhibliListView.prototype.renderFilm = function (selectedFilm) {
+GhibliListView.prototype.renderFilm = function (selectedData) {
   this.container.innerHTML = " ";
-  selectedFilm = new GhibliView(this.container, selectedFilm);
+  selectedFilm = new GhibliView(this.container, selectedData);
   selectedFilm.render();
 };
 
 GhibliListView.prototype.render = function (filmData) {
-  this.container.innerHTML = " ";
+  this.container.innerHTML = "";
   filmData.forEach((film) =>{
     const filmView = new GhibliView(this.container, film);
     filmView.render();

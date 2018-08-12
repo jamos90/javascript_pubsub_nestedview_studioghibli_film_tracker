@@ -37,12 +37,16 @@ GhibliView.prototype.createList = function () {
 GhibliView.prototype.populateList= function (filmInfo) {
     const filmDescription = document.createElement('li');
     const filmRating = document.createElement('li');
+    const filmDirector = document.createElement('li');
     const pageBreak = document.createElement('br');
     filmDescription.textContent =`Film description:  ${this.film.description}`;
     filmRating.textContent = `Rotten Tomatoes rating:  ${this.film.rtScore}`;
+    filmDirector.textContent = `Film's director: ${this.film.director}`;
     filmInfo.appendChild(filmDescription);
     filmInfo.appendChild(pageBreak);
     filmInfo.appendChild(filmRating);
+    filmInfo.appendChild(pageBreak);
+    filmInfo.appendChild(filmDirector);
 
 };
 
