@@ -8,7 +8,7 @@ const GhibliView = function (container, film) {
 }
 
 GhibliView.prototype.render = function () {
-  this.innerHTML = "";
+  this.container.innerHTML = "";
   const filmContainer = document.createElement('div');
   this.container.appendChild(filmContainer);
 

@@ -27,8 +27,10 @@ Ghibli.prototype.getDataFilm = function () {
     requestHelperPeople.get()
     .then((data) => {
       // console.log('all data people', data);
+      this.getFilmsFromPeople(data);
       this.formatPeopleData(data);
       PubSub.publish('Ghibli:people-data-ready', this.people);
+      console.log('people data', this.people);
     });
  }
 
@@ -48,47 +50,36 @@ Ghibli.prototype.formatFilmData = function (filmData) {
       title: film.title,
       description: film.description,
       rtScore: film.rt_score,
-      characters: this.people
+
     }
   });
   // console.log(this.films);
 };
 
-Ghibli.prototype.filmCharacterInformation = function (filmData) {
-  const film = filmData.forEach((film) => {
-   const filmCharacters = film.people.forEach((character) => {
-    const characterRequest = new RequestHelper(filmCharacters);
-      characterRequest.get()
-      .then((data) => {
-       this.people = data;
-     });
-     console.log(this.people);
-    });
-  });
-};
-
-
 Ghibli.prototype.formatPeopleData = function (peopleData) {
   this.people = peopleData.map((person) => {
+
     return {
       id: person.id,
       name: person.name,
-      films: person.films
+      gender: person.gender,
+      film: person.films
       }
     });
-  console.log('people', this.people);
-};
+  };
 
-Ghibli.prototype.getFilmForCharacter = function (peopleData) {
-  peopleData.films.forEach((film) => {
-    const charactersFilm = new RequestHelper(peopleData.films)
-    charactersFilm.get()
-    .then(data);
-    return data;
-  });
-  return charactersFilm;
-};
-
-
+    Ghibli.prototype.getFilmsFromPeople = function(peopleData){
+      const filmList = peopleData.forEach((person) => {
+        const charactersFilms = person.films
+        const filmToRequest = charactersFilms[0];
+        const newFilm = new RequestHelper(filmToRequest);
+        newFilm.get()
+        .then((data) => {
+          const filmOfCharacter = data;
+          person.films = data
+          console.log(`person films`,person.films);
+        });
+      });
+    };
 
 module.exports = Ghibli;
