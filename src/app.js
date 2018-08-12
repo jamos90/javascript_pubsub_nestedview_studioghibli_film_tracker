@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ghibliListView.bindEvents();
 
   const selector = document.querySelector('#film-selector');
-  const selectView = new SelectView(selector);
+  const directorSlector = document.querySelector('#director-selector');
+  const selectView = new SelectView(selector, directorSlector);
   selectView.bindEvents();
 
   const ghibli = new Ghibli();

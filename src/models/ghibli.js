@@ -4,7 +4,7 @@ const PubSub = require('../helpers/pub_sub.js');
 
 const Ghibli = function () {
   this.films = null;
-  this.people = null;
+  this.people = {};
   this.charactersFilms = {};
 };
 
@@ -41,6 +41,12 @@ Ghibli.prototype.getDataFilm = function () {
      const selectedIndex = evt.detail;
      const selectedFilm = this.films[selectedIndex];
      PubSub.publish('Ghibli:slected-film-sent-to-view', selectedFilm);
+     PubSub.subscribe('SelectView:select-films-by-director', (evt) =>{
+       const director = evt.detail;
+       const  filtredFilms = this.filterByDirector(director);
+       PubSub.publish('Ghibli:filtered-list-ready');
+      });
+
    });
 
  }
@@ -52,11 +58,16 @@ Ghibli.prototype.formatFilmData = function (filmData) {
       title: film.title,
       description: film.description,
       rtScore: film.rt_score,
+      director: film.director
 
     }
   });
   // console.log(this.films);
 };
+
+Ghibli.prototype.filterByDirector = function (director){
+  return this.films.filter(film => film.director === director)
+}
 
 Ghibli.prototype.formatPeopleData = function (peopleData) {
   this.people = peopleData.map((person) => {
@@ -65,10 +76,10 @@ Ghibli.prototype.formatPeopleData = function (peopleData) {
       id: person.id,
       name: person.name,
       gender: person.gender,
-
-      }
-    });
-  };
+      film: {}
+    }
+  });
+}
 
 Ghibli.prototype.getFilmsFromPeople = function(peopleData){
   const filmList = peopleData.forEach((person) => {
@@ -78,17 +89,18 @@ Ghibli.prototype.getFilmsFromPeople = function(peopleData){
       newFilm.get()
       .then((data) => {
         const filmData = data;
-        formatPeopleFilmData(data);
+        this.formatPeopleFilmData(filmData);
       });
   });
 };
 
 Ghibli.prototype.formatPeopleFilmData = function (data) {
-    Object.defineProperty(this.people, 'film', {
+    return Object.defineProperty(this.people, 'film', {
       value: data,
-      writable: true
+      writable: true,
+      configurable: true
     });
-    console.log(this.charactersFilms);
+    console.log('object added?',this.people);
 };
 
 
