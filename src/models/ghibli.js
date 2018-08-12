@@ -50,6 +50,11 @@ Ghibli.prototype.getDataFilm = function () {
        PubSub.publish('Ghibli:director-filtered-list-ready', filteredFilms);
       });
 
+      PubSub.subscribe('SelectView:selected-character-ready', (evt)=>{
+        const selectedCharacter = evt.detail;
+        this.getFilmsFromPeople(selectedCharacter); 
+      })
+
    });
  }
 

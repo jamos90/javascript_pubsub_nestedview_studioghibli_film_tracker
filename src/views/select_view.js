@@ -31,6 +31,12 @@ SelectView.prototype.bindEvents = function (){
     PubSub.publish('SelectView:selected-director-ready', selectedDirector);
   });
 
+  this.thirdSelect.addEventListener('change',(evt) => {
+    const selectedCharacter = evt.target.value;
+    PubSub.publish('SelectView:selected-character-ready', selectedCharacter)
+    console.log(selectedCharacter);
+  });
+
 }
   SelectView.prototype.populateDropDown = function (filmData) {
     const filmTitle = filmData.forEach((film, index) =>{

@@ -8,6 +8,7 @@ const GhibliViewMultiple = function (container, films) {
 
 const filmImages = new Object();
 filmImages.CastleInTheSky = 'castle_sky.jpg'
+filmImages.HowlsMovingCastle = 'castle_sky.jpg'
 
 GhibliViewMultiple.prototype.render = function () {
   this.container.innerHTML = "";
@@ -19,7 +20,7 @@ GhibliViewMultiple.prototype.render = function () {
      const title = document.createElement('h1');
      const description = document.createElement('p');
      const rating = document.createElement('li');
-     const img = document.createElement('img');
+     const image = document.createElement('img');
 
      title.textContent =`Title: ${film.title}`;
      description.textContent = `Description ${film.description}`;
@@ -29,12 +30,11 @@ GhibliViewMultiple.prototype.render = function () {
        image.src = filmImages.value;
        console.log(keys);
      }
-     console.log(title);
      this.container.appendChild(title);
      this.container.appendChild(description);
      this.container.appendChild(listContainer);
      listContainer.appendChild(rating);
-     this.container.appendChild(img);
+     this.container.appendChild(image);
   });
 };
 

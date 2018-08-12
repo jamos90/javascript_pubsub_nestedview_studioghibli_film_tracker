@@ -12,17 +12,17 @@ GhibliListView.prototype.bindEvents = function () {
     const selectedFilm = evt.detail;
     this.renderFilm(selectedFilm);
   });
-  PubSub.subscribe('Ghibli:film-data-ready', (evt) =>{
-    const filmsData = evt.detail;
-    console.log('list view', filmsData);
-    this.render(filmsData);
-  });
   PubSub.subscribe('Ghibli:director-filtered-list-ready', (evt) =>{
     const directorData = evt.detail;
     console.log('correct director data passed',directorData);
     this.renderDirectorsFilms(directorData);
   });
-};
+
+//   PubSub.subscribe('Ghibli:characters-film-info', (evt) =>{
+//     const charactersFilms = evt.detail;
+//     this.renderFilm(charactersFilms);
+//   });
+  };
 
 GhibliListView.prototype.renderDirectorsFilms = function (selectedData) {
   this.container.innerHTML = "";
