@@ -48,6 +48,7 @@ SelectView.prototype.bindEvents = function (){
   };
 
   SelectView.prototype.populateDirectorDropDown = function (filmData) {
+
     const directors = filmData.forEach((film) => {
      const listOption = document.createElement('option');
      listOption.textContent = film.director;

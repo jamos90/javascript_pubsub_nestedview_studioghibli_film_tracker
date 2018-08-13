@@ -15,6 +15,7 @@ GhibliViewMultiple.prototype.render = function () {
   const filmContainer = document.createElement('div');
   this.container.appendChild(filmContainer);
   console.log(this.films);
+
   this.films.forEach((film) => {
     const listContainer = document.createElement('ul');
      const title = document.createElement('h1');
@@ -25,11 +26,13 @@ GhibliViewMultiple.prototype.render = function () {
      title.textContent =`Title: ${film.title}`;
      description.textContent = `Description ${film.description}`;
      rating.textContent = `Rating ${film.rtScore}`;
+
      const keys = Object.keys(filmImages)
      if(film.title === keys){
        image.src = filmImages.value;
        console.log(keys);
      }
+     
      this.container.appendChild(title);
      this.container.appendChild(description);
      this.container.appendChild(listContainer);

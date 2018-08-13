@@ -29,8 +29,9 @@ Ghibli.prototype.getDataFilm = function () {
     requestHelperPeople.get()
     .then((data) => {
       // console.log('all data people', data);
+      this.getFilmsFromPeople(data)
       this.formatPeopleData(data);
-      this.getFilmsFromPeople(data);
+      console.log('this.people:',this.people);
       PubSub.publish('Ghibli:people-data-ready', this.people);
       console.log('people data', this.people);
     });
@@ -52,13 +53,14 @@ Ghibli.prototype.getDataFilm = function () {
 
       PubSub.subscribe('SelectView:selected-character-ready', (evt)=>{
         const selectedCharacter = evt.detail;
-        this.getFilmsFromPeople(selectedCharacter); 
+        this.getFilmsFromPeople(selectedCharacter);
       })
 
    });
  }
 
 Ghibli.prototype.formatFilmData = function (filmData) {
+  this.getDirectorNames(filmData);
   this.films = filmData.map((film) => {
     return {
       id: film.id,
@@ -75,11 +77,12 @@ Ghibli.prototype.filterByDirector = function (director){
   return this.films.filter(film => film.director === director);
 }
 
-// Ghibli.prototype.getDirectorNames = function (films) {
-//   return films
-//     .map(film => film.director)
-//     .filter((director, index, directors) => regions.indexOf(region) === index);
-// };
+Ghibli.prototype.getDirectorNames = function (films) {
+    const mappedDirectors = films
+    .map(film => film.director)
+    const filterDirectors = mappedDirectors.filter((director, index, directors) => directors.indexOf(director) === index);
+    return filterDirectors;
+};
 
 Ghibli.prototype.formatPeopleData = function (peopleData) {
   this.people = peopleData.map((person) => {
@@ -88,7 +91,7 @@ Ghibli.prototype.formatPeopleData = function (peopleData) {
       id: person.id,
       name: person.name,
       gender: person.gender,
-      film: {}
+      film: null
     }
   });
 }
@@ -101,19 +104,20 @@ Ghibli.prototype.getFilmsFromPeople = function(peopleData){
       newFilm.get()
       .then((data) => {
         const filmData = data;
-        PubSub.publish('Ghibli:characters-film-info');
+        this.formatPeopleFilmData(data);
+        // PubSub.publish('Ghibli:characters-film-info', filmData);
       });
   });
 };
 
-// Ghibli.prototype.formatPeopleFilmData = function (data) {
-//     return Object.defineProperty(this.people, 'film', {
-//       value: data,
-//       writable: true,
-//       configurable: true
-//     });
-//     console.log('object added?',this.people);
-// };
+Ghibli.prototype.formatPeopleFilmData = function (data) {
+    return Object.defineProperty(this.people, 'film', {
+      value: data,
+      writable: true,
+      configurable: true
+    });
+    console.log('object added?',this.people);
+};
 
 
 
